@@ -1,0 +1,15 @@
+version: '3.3'
+services:
+  soundrecognition-postgresql:
+    image: postgres:10-alpine
+    restart: unless-stopped
+    volumes:
+      - soundrecognition_postgres_volume:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=soundrecognition
+      - POSTGRES_PASSWORD=soundrecognition_Passw0rd
+      - POSTGRES_DB=soundrecognition
+    ports:
+      - 5439:5432
+volumes:
+  soundrecognition_postgres_volume:

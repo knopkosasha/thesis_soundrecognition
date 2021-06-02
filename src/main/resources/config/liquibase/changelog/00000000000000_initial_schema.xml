@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet id="00000000000000-1" author="amaslakova">
+        <createTable tableName="artist">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="00000000000000-1-data" author="amaslakova">
+        <loadData
+                file="config/liquibase/data/artist.csv"
+                separator=";"
+                tableName="artist">
+            <column name="id" type="numeric"/>
+            <column name="name" type="string"/>
+        </loadData>
+    </changeSet>
+
+    <changeSet id="00000000000000-2" author="amaslakova">
+        <createTable tableName="album_cover">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="content_type" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="content" type="bytea">
+                <constraints nullable="false"/>
+            </column>
+            <column name="filename" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="00000000000000-3" author="amaslakova">
+        <createTable tableName="album">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="artist_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cover_id" type="bigint"/>
+            <column name="description" type="varchar"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="album"
+                                 baseColumnNames="artist_id"
+                                 constraintName="fk_album_artist"
+                                 referencedTableName="artist"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="album"
+                                 baseColumnNames="cover_id"
+                                 constraintName="fk_album_album_cover"
+                                 referencedTableName="album_cover"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="00000000000000-3-data" author="amaslakova">
+        <loadData
+                file="config/liquibase/data/album.csv"
+                separator=";"
+                tableName="album">
+            <column name="id" type="numeric"/>
+            <column name="name" type="string"/>
+            <column name="artist_id" type="numeric"/>
+            <column name="cover_id" type="numeric"/>
+            <column name="description" type="string"/>
+        </loadData>
+    </changeSet>
+
+    <changeSet id="00000000000000-4" author="amaslakova">
+        <createTable tableName="song_hash">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="hash" type="varchar"/>
+            <column name="song_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="00000000000000-5" author="amaslakova">
+        <createTable tableName="song">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="duration" type="interval">
+                <constraints nullable="false"/>
+            </column>
+            <column name="genre" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="artist_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="album_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="song"
+                                 baseColumnNames="artist_id"
+                                 constraintName="fk_song_artist"
+                                 referencedTableName="artist"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="song"
+                                 baseColumnNames="album_id"
+                                 constraintName="fk_song_album"
+                                 referencedTableName="album"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="song_hash"
+                                 baseColumnNames="song_id"
+                                 constraintName="fk_song_song_hash"
+                                 referencedTableName="song"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+</databaseChangeLog>

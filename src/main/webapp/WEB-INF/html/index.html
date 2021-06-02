@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Insertion HTML5 Template</title>
+
+</head>
+
+<body>
+<button onclick = "GetAll()"> Get all </button>
+<script>
+    function GetAll() {
+        isAlreadyDownloaded = true;
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:8080/api/song/1",
+            contentType: "application/json",
+
+            success: function (result) {
+                console.log("received data: ", result);
+
+            },
+            error: function () {
+                console.log("error");
+            }
+        });
+        isAlreadyDownloaded = false;
+    }
+</script>
+</body>
+</html>

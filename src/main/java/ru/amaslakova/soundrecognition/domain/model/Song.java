@@ -57,7 +57,7 @@ public class Song implements Serializable {
     @Enumerated(EnumType.STRING)
     private Genre genre;
 
-    @OneToMany(mappedBy = "hash_id", fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "hash", fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<SongHash> hash;
 
     @ManyToOne

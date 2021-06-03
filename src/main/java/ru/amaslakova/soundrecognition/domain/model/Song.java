@@ -3,12 +3,15 @@ package ru.amaslakova.soundrecognition.domain.model;
 import com.vladmihalcea.hibernate.type.interval.PostgreSQLIntervalType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.TypeDef;
 import ru.amaslakova.soundrecognition.domain.enumiration.Genre;
 
 import java.io.Serializable;
 import java.time.Duration;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -28,6 +31,8 @@ import javax.persistence.Table;
  * Song data entity.
  */
 @Data
+@EqualsAndHashCode(exclude = "hash")
+@ToString(exclude = "hash")
 @Entity
 @Table(name = "song")
 @AllArgsConstructor
@@ -57,8 +62,8 @@ public class Song implements Serializable {
     @Enumerated(EnumType.STRING)
     private Genre genre;
 
-    @OneToMany(mappedBy = "hash", fetch = FetchType.EAGER, orphanRemoval = true)
-    private Set<SongHash> hash;
+    @OneToMany(mappedBy = "song", fetch = FetchType.EAGER, orphanRemoval = true)
+    private Set<SongHash> hash = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "artist_id")

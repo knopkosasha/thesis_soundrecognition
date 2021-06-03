@@ -104,7 +104,7 @@
             <column name="duration" type="interval">
                 <constraints nullable="false"/>
             </column>
-            <column name="path" type="string">
+            <column name="path" type="varchar">
                 <constraints nullable="false"/>
             </column>
             <column name="genre" type="varchar">

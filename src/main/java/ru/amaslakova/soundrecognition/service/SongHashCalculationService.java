@@ -27,6 +27,7 @@ public class SongHashCalculationService {
         AudioFile audioFile = new AudioFile(file);
         FingerPrint fingerPrint = new FingerPrint(audioFile);
         Set<SongHash> hashes = new HashSet<>();
+        long start = System.currentTimeMillis();
         List<HashedPeak> hashedPeaks = fingerPrint.getHashes();
 
         for (HashedPeak peak : hashedPeaks) {
@@ -35,6 +36,9 @@ public class SongHashCalculationService {
             newHash.setHash(hash);
             hashes.add(newHash);
         }
+        long end = System.currentTimeMillis();
+        System.out.println("Time to fingerprint: " + (end - start));
+        System.out.println("Hash size: " + hashes.size());
 
         return hashes;
     }

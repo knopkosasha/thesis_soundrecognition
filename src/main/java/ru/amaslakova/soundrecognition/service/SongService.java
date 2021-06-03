@@ -26,8 +26,10 @@ import java.io.File;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -75,13 +77,13 @@ public class SongService {
         album.addSong(song);
         song.setAlbum(album);
 
+        song = this.songRepository.save(song);
+
         Set<SongHash> songHashes = this.songHashCalculationService.calculateSongHashes(song);
         for (SongHash hash : songHashes) {
             hash.setSong(song);
             this.songHashRepository.save(hash);
         }
-        song.setHash(songHashes);
-        this.songRepository.save(song);
         log.info("Song {} was created: {}", song.getId(), song);
         return this.songConverter.toDTO(song);
     }
@@ -173,6 +175,17 @@ public class SongService {
         AudioFile fullAudio = new AudioFile(fullFile);
 
         return this.compareHashes.compare(partAudio, fullAudio);
+    }
+
+    @Transactional
+    public Map<Double, String> match(Long partId) throws Exception {
+        Map<Double, String> matches = new HashMap();
+        List<Song> songs = this.songRepository.findAll();
+        for (Song song : songs) {
+            Double songMatch = this.compareById(partId, song.getId());
+            matches.put(songMatch, song.getName());
+        }
+        return matches;
     }
 
 }

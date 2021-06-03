@@ -75,7 +75,7 @@ public class FingerPrint {
 		}
 
 		// store the generated hashes
-		List<HashedPeak> hashes = new LinkedList<HashedPeak>(); //new HashedPeak[peaks.size() * FAN_VALUE];
+		this.hashes = new LinkedList<HashedPeak>(); //new HashedPeak[peaks.size() * FAN_VALUE];
 		
 		// generate a hash for the given peaks
 		for (int i = 0; i < peaks.size(); ++i) {
@@ -95,7 +95,7 @@ public class FingerPrint {
 				
 				// if they are within a reasonable time distance, calculate the hash
 				if (delta >= 0 && delta <= 200) {
-					hashes.add(new HashedPeak(one, two, delta));
+					this.hashes.add(new HashedPeak(one, two, delta));
 				}
 			}
 		}

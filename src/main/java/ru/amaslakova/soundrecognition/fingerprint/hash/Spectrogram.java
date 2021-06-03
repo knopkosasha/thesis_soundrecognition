@@ -43,8 +43,7 @@ public class Spectrogram {
 	
 	/**
 	 * Creates an image of the spectrogram
-	 * 
-	 * @param audioFile The audio file
+	 *
 	 * @param filename The name of the image file to save to
 	 */
 	public void render(String filename) {
@@ -80,7 +79,7 @@ public class Spectrogram {
 		if (this.data != null) {
 			return this.data;
 		}
-		
+		long startTime = System.currentTimeMillis();
 		short[] amplitudes = this.audioFile.getSampleAmplitudes();
 		int samples = amplitudes.length;
 		
@@ -161,6 +160,8 @@ public class Spectrogram {
 				}
 			}
 			this.data = spectrogram;
+			long endTime = System.currentTimeMillis();
+			System.out.println("Time to calculate spectrogram: " + (endTime - startTime));
 			return spectrogram;
 		}
 		return null;

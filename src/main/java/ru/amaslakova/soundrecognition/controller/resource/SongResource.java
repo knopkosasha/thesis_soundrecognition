@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import ru.amaslakova.soundrecognition.domain.dto.SongDTO;
 import ru.amaslakova.soundrecognition.domain.enumiration.Genre;
+import ru.amaslakova.soundrecognition.domain.model.Song;
 import ru.amaslakova.soundrecognition.exception.APIException;
 import ru.amaslakova.soundrecognition.exception.NotFoundException;
 import ru.amaslakova.soundrecognition.exception.album.AlbumCreationException;
@@ -163,8 +164,20 @@ public class SongResource {
                     message = "Success"
             )
     })
-    public double compare(@PathVariable("partId") Long partId, @PathVariable("fullId") Long fullId) throws Exception {
+    public double compare(@RequestParam("partId") Long partId, @RequestParam("fullId") Long fullId) throws Exception {
         return this.songService.compareById(partId, fullId);
+    }
+
+    @GetMapping("/match/{partId}")
+    @ApiOperation("Find all matches")
+    @ApiResponses({
+            @ApiResponse(
+                    code = 200,
+                    message = "Success"
+            )
+    })
+    public Map<Double, String> match(@PathVariable("partId") Long partId) throws Exception {
+        return this.songService.match(partId);
     }
 
     @ExceptionHandler({SongCreationException.class, SongUpdateException.class,

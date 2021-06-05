@@ -37,6 +37,6 @@ public class CompareHashes {
         System.out.println("Time to find a match: " + timing);
 
 
-        return 1d / Math.min(partSize, fullHexes.size()) * intersection;
+        return 1d / partSize * intersection;
     }
 }

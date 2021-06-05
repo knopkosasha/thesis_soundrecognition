@@ -15,15 +15,13 @@ import java.util.List;
  * 
  * http://www.ee.columbia.edu/~dpwe/papers/Wang03-shazam.pdf
  * http://mtg.upf.edu/files/publications/MMSP-2002-pcano.pdf
- * 
- * @author Derek Honerlaw <honerlawd@gmail.com>
  */
 public class FingerPrint {
 	
 	/**
 	 * The size of the neighborhood to search for peaks in
 	 */
-	private static final int PEAK_NEIGHBORHOOD = 20;
+	private static final int PEAK_NEIGHBORHOOD = 56;
 	
 	/**
 	 * The number of peaks to look through when generating a hash

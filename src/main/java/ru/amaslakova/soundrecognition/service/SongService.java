@@ -182,6 +182,7 @@ public class SongService {
         Map<Double, String> matches = new HashMap();
         List<Song> songs = this.songRepository.findAll();
         for (Song song : songs) {
+            System.out.println(song.getName());
             Double songMatch = this.compareById(partId, song.getId());
             matches.put(songMatch, song.getName());
         }
